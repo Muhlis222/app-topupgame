@@ -1,39 +1,76 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from "react";
+import { Drawer } from "expo-router/drawer";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+export default function _layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+
+    <Drawer>
+      <Drawer.Screen
+        name="index"
+        options={{
+          drawerLabel: "Beranda",
+          title: "Beranda", // Mengubah judul header halaman
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color={color} />
+          )
+        }}
+      />
+      <Drawer.Screen
+        name="home/game"
+        options={{
+          drawerLabel: "Semua Game",
+          title: "Semua Game",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="game-controller-outline" size={size} color={color} />
+          )
+        }}
+      />
+      <Drawer.Screen
+        name="home/lacakpesanan"
+        options={{
+          drawerLabel: "Lacak Pesanan",
+          title: "Lacak Pesanan",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="search-outline" size={size} color={color} />
+          )
+        }}
+      />
+      <Drawer.Screen
+        name="home/login"
+        options={{
+          headerShown: false,
+          drawerLabel: "Masuk",
+          title: "Masuk",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="log-in-outline" size={size} color={color} />
+          )
+        }}
+      />
+      <Drawer.Screen
+        name="home/about"
+        options={{
+          drawerLabel: "About",
+          title: "About",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="information-circle" size={size} color={color} />
+          )
+        }}
+      />
+      <Drawer.Screen
+        name="home/masuk"
+        options={{
+          title: "Masuk",
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+      <Drawer.Screen
+        name="home/daftar"
+        options={{
+          drawerItemStyle: { display: "none" },
+          title: "Daftar",
+        }}
+      />
+    </Drawer>
   );
 }
